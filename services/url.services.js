@@ -44,12 +44,17 @@ exports.getUrls = async () => {
   }
 };
 
-exports.getErrorUrlsToday = async () => {
+exports.getErrorUrlsDay = async (time) => {
   try {
-    const start = moment().startOf('day').toDate();
-    const end = moment().endOf('day').toDate();
+    const start = moment(time).startOf('day').toDate();
+    const end = moment(time).endOf('day').toDate();
 
-    const errors = await UrlError.find({});
+    const errors = await UrlError.find({
+      created: {
+        $gte: start,
+        $lt: end,
+      },
+    });
 
     return errors;
   } catch (err) {
@@ -59,16 +64,16 @@ exports.getErrorUrlsToday = async () => {
 
 exports.getErrorUrlsUpdate = async () => {
   try {
+    // console.log(time);
     const start = moment().startOf('day').toDate();
     const end = moment().endOf('day').toDate();
+    // console.log(start, end);
     let errors = await UrlError_update.find({
       created: {
         $gte: start,
         $lt: end,
       },
     });
-
-    errors = errors.map((item) => item.url);
 
     return errors;
   } catch (err) {
@@ -93,14 +98,12 @@ const createUniqueUrls = async (model, errors, option = false) => {
     }
 
     const existedError = await model.find(option);
-    const existedUrl = existedError.map((item) => item.url);
 
-    const newError = errors
-      .map((item) => item.url)
-      .filter((url) => !existedUrl.includes(url))
-      .map((url) => {
-        return { url: url };
-      });
+    const newError = errors.filter(
+      ({ url }) => !existedError.some((x) => x.url == url)
+    );
+
+    // console.log(newError);
     await model.create(newError);
   } catch (err) {
     throw err;

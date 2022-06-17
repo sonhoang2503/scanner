@@ -26,7 +26,8 @@ exports.checkData = async (data, check = false) => {
         });
     } else {
       for (const chunk of data) {
-        // console.log(false);
+        console.log(false);
+        // console.log(chunk);
         const list = chunk.map((item) => {
           return new Promise(async (resolve, reject) => {
             const obj = await puppeteer.getUrlStatus(browser, item.url);
@@ -48,4 +49,3 @@ exports.checkData = async (data, check = false) => {
     console.log(err);
   }
 };
-

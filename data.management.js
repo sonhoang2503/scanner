@@ -1,8 +1,8 @@
 const convertFile = require('./utils/convert-file');
 const isUrl = require('is-valid-http-url');
 
-const arr = convertFile('./TOP page/askcoininfo.com.txt');
-// const arr = convertFile('./TOP page/Therecipes.txt');
+// const arr = convertFile('./TOP page/askcoininfo.com.txt');
+const arr = convertFile('./TOP page/ecitywork.txt');
 
 const arrOfObj = arr
   .filter((url) => isUrl(url))
@@ -16,9 +16,9 @@ const arrOfObj = arr
 //     return { url: item, status: 500 };
 //   });
 
-console.log(arrOfObj);
+// console.log(arrOfObj);
 
-// console.log(arr);
+// // console.log(arr);
 require('dotenv').config({ path: './.env' });
 const connectDB = require('./utils/DB');
 const Url = require('./models/url');
@@ -43,3 +43,22 @@ const importData = async () => {
 };
 
 importData();
+
+// const User = require('./models/user');
+
+// const createUser = async (username, pass) => {
+//   try {
+//     await connectDB(process.env.DB_URI);
+
+//     const user = await User.create({
+//       user: username,
+//       password: pass,
+//     });
+
+//     console.log(user);
+//   } catch (err) {
+//     throw err;
+//   }
+// };
+
+// createUser('admin', 'getgoadmin');

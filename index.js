@@ -3,6 +3,8 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const errorHandler = require('./utils/errorHandler');
+const cookieParser = require('cookie-parser');
+
 const helmet = require('helmet');
 const cors = require('cors');
 const xss = require('xss-clean');
@@ -24,14 +26,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // SECURE APP
 app.use(cors());
-app.use(helmet());
+// app.use(helmet());
 app.use(xss());
 app.use(mongoSanitize());
-
 app.use(morgan('tiny'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use('/', router);
 app.use(errorHandler);

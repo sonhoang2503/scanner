@@ -24,7 +24,7 @@ html
   body
 
     main.errors
-      h1 Update errors page daily - #{(new Date(number)).toDateString('en-En')}
+      h1 Review errors  - #{(new Date(number)).toDateString('en-En')}
       table#table_id.display
         thead
           tr
@@ -44,12 +44,10 @@ html
               th 200
               th OK
 
-
-      div.buttons(style =' margin-top: 2rem')
-        a(href=`http://localhost:3000/day-review?time=${number}`) Day by day reviews =>
-        
-
-      
+      div.buttons(style =' margin-top: 2rem; display: flex; gap: 7rem')
+        a(href=`http://localhost:3000/day-review?time=${number - 86400 * 1000}` style="inline-block"  ) <= Prev day
+        a(href=`http://localhost:3000/update` style="inline-block") Update today
+        a(href=`http://localhost:3000/day-review?time=${number + 86400 * 1000}` style="inline-block" ) Next day =>
 
     script 
 

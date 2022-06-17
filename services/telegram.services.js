@@ -3,6 +3,8 @@ const axios = require('axios');
 const { checkData } = require('../utils/checkData');
 const connectDB = require('../utils/DB');
 
+const moment = require('moment');
+
 const chunk = (arr, chunkSize) => {
   let chunked = [];
   for (let i = 0; i < arr.length; i += chunkSize) {
@@ -32,9 +34,11 @@ exports.sendNotif = async () => {
       return item.status !== 200;
     });
 
+  const time = moment().valueOf();
+
   if (errorList.length > 0) {
     const msg = `ERROR, ERROR!!! Please check these Sites! Something went wrong!!
-                https://toolcheckurls-hoangnguyen.netlify.app/update-error`;
+                https://toolcheckurls-hoangnguyen.netlify.app/update-error/${time}`;
 
     await UrlService.updateErrorList(errorList);
     await sendMessage(msg);
